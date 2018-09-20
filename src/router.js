@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import onGame from './components/onGame'
 
 Vue.use(Router)
 
@@ -23,11 +24,19 @@ export default new Router({
       name:'lobby',
       component:()=> import('./components/Lobby.vue')
     },
+<<<<<<< HEAD
       {
       path:'/waitingroom/:id',
       name:'waitingroom',   
       props:true,  
       component: () => import('./components/Waitingroom.vue')
     },    
+=======
+    {
+      path: '/ongame',
+      name: 'onGame',
+      component: onGame
+    }
+>>>>>>> gamelogicLocal done
   ]
 })
