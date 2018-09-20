@@ -27,8 +27,9 @@ export default new Router({
       component:()=> import('./components/Lobby.vue')
     },
       {
-      path:'/waitingroom',
-      name:'waitingroom',     
+      path:'/waitingroom/:id',
+      name:'waitingroom',   
+      props:true,  
       component: () => import('./components/Waitingroom.vue')
     },    
   ]
