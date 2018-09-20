@@ -1,5 +1,11 @@
 <template>
   <div id="app">
+    <nav class="navbar navbar-expand-md bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">Go-Yank</a>
+      </div>
+    </nav>
+
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
