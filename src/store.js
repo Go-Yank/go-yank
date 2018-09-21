@@ -3,12 +3,12 @@ import Vuex from 'vuex'
 import * as firebase from 'firebase'
 
 var config = {
-  apiKey: "AIzaSyCNf9kaL6VVKovaYACsv-JYvYfMevL8xZk",
-  authDomain: "go-yank.firebaseapp.com",
-  databaseURL: "https://go-yank.firebaseio.com",
-  projectId: "go-yank",
-  storageBucket: "go-yank.appspot.com",
-  messagingSenderId: "440096021167"
+  apiKey: "",
+  authDomain: "",
+  databaseURL: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: ""
 };
 
 const app = firebase.initializeApp(config);
