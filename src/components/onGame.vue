@@ -1,10 +1,9 @@
 <template>
   <div class="home">
-    Logo
     <div class="ui center aligned container">
       <div class="column" style="margin-top: 60px;">
           <div v-if="isGameEnded">
-            {{msgGame}}
+            <h3>{{msgGame}}</h3><br>
               <button class="ui button" v-on:click="removeRoom">
                 Go to lobby
               </button>
@@ -27,12 +26,8 @@
                 {{countLimit}}
               </div>
               <div v-else style="margin-top:50px;">
+              <h4>Your actual move :</h4>
                 {{playerMovement}}
-              </div>
-              <div>
-                <button v-on:click="stopGame">
-                  stop
-                </button>
               </div>
             </div>
           </div>
