@@ -24,13 +24,10 @@ export default new Vuex.Store({
   state: {
     database: [],
     rooms: [],
-<<<<<<< HEAD
     room: [],
-    waitingroom: []
-=======
+    waitingroom: [],
     detailRoomVal: {}, 
     systemGame: null
->>>>>>> adding player 1 and player 2, score max, and play
   },
   mutations: {
     setData: (state, payload) => {
@@ -39,7 +36,9 @@ export default new Vuex.Store({
     setRoom: (state, payload) => {
       state.rooms = payload
     },
-<<<<<<< HEAD
+    setDetailRoom: (state, payload) => {
+      state.detailRoomVal = payload
+    },
     setWaitingRoom: (state, payload) => {
       state.room = payload
     },
@@ -54,14 +53,11 @@ export default new Vuex.Store({
         name: payload.name        
       }
       databaseRoom.child(`${payload.roomId}/messages`).push(data);
-=======
-    setDetailRoom: (state, payload) => {
-      state.detailRoomVal = payload
-    }
-  },
-  actions: {
+    },
+    delRoom ({commit},payload) {
+      databaseRoom.child(`${payload}`).remove()
+    },
     addingScore: ({commit},payload) => {
-      console.log('masuk ADD SCORE ===============>', payload)
       databaseRoom.child(`${payload.roomId}/${payload.playerNumber}/score`).set(payload.playerScore)
     },
     detailRoom: ({commit},payload) => {
@@ -71,9 +67,7 @@ export default new Vuex.Store({
       });
     },
     changeMovement: ({commit}, payload) => {
-      // console.log(`Update database room/movement/${payload.movement}`);
       databaseRoom.child(`${payload.roomId}/movement`).set(payload.movement)
->>>>>>> adding player 1 and player 2, score max, and play
     },
     getData: ({ commit }) => {
       database.on('value', (snapshot) => {

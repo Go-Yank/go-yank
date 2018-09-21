@@ -3,39 +3,39 @@
     Logo
     <div class="ui center aligned container">
       <div class="column" style="margin-top: 60px;">
-        <div class="ui button" style="margin-top:30px;" @click="start" v-if="!startStats">
-          Start Games
-        </div>
-        <div class="countdown" v-else style="font-size:50px;">
           <div v-if="isGameEnded">
             {{msgGame}}
-            <button class="ui button">
-              Go to lobby
-            </button>
+              <button class="ui button" v-on:click="removeRoom">
+                Go to lobby
+              </button>
           </div>
           <div v-else>
-            <div style="margin-top:50px;">
-              Score : {{player.playerScore}}
+            <div class="ui button" style="margin-top:30px;" @click="start" v-if="!startStats">
+              Start Games
             </div>
-            <div  style="margin-top:50px;">
-              clue :
-            </div>
-            <div v-if="taskMovement">
-              {{taskMovement}}
-            </div>
-            <div v-if="countLimit !== 'GO..!'" style="margin-top:50px;">
-              {{countLimit}}
-            </div>
-            <div v-else style="margin-top:50px;">
-              {{playerMovement}}
-            </div>
-            <div>
-              <button v-on:click="stopGame">
-                stop
-              </button>
+            <div class="countdown" v-else style="font-size:50px;">
+              <div style="margin-top:50px;">
+                Score : {{player.playerScore}}
+              </div>
+              <div  style="margin-top:50px;">
+                clue :
+              </div>
+              <div v-if="taskMovement">
+                {{taskMovement}}
+              </div>
+              <div v-if="countLimit !== 'GO..!'" style="margin-top:50px;">
+                {{countLimit}}
+              </div>
+              <div v-else style="margin-top:50px;">
+                {{playerMovement}}
+              </div>
+              <div>
+                <button v-on:click="stopGame">
+                  stop
+                </button>
+              </div>
             </div>
           </div>
-        </div>
       </div>
     </div>
   </div>
@@ -47,45 +47,61 @@ import gest from '../assets/gest.js'
 
 export default {
   name: 'onGame',
+  mounted() {
+    this.start()
+  },
   watch: {
     ...mapState(["detailRoomVal"]),
     detailRoomVal () {
-      if (this.detailRoomVal.player1.score === 100) {
-        this.stopGame()
-        this.showWinner('You Win')
-      } else if (this.detailRoomVal.player2.score === 100) {
-        this.stopGame()
-        this.showWinner('You Lose')
+      if (this.player.host) {
+        if (this.detailRoomVal.player1.score === 100) {
+          this.stopGame()
+          this.showWinner('You Win')
+        } else if (this.detailRoomVal.player2.score === 100) {
+          this.stopGame()
+          this.showWinner('You Lose')
+        }
+      } else {
+        if (this.detailRoomVal.player1.score === 100) {
+          this.stopGame()
+          this.showWinner('You Lose')
+        } else if (this.detailRoomVal.player2.score === 100) {
+          this.stopGame()
+          this.showWinner('You Win')
+        } 
       }
     },
     playerMovement () {
+      let player = ''
+      if (this.player.host) {
+        player =  'player1'
+      } else {
+        player =  'player2'
+      }
       if (this.taskMovement === this.playerMovement) {        
-        this.addScore()
+        this.addScore(player)
       } else if (this.playerMovement === 'Up' && this.taskMovement === 'Long up') {
-        this.addScore()
+        this.addScore(player)
       } else if (this.playerMovement === 'Down' && this.taskMovement === 'Long down') {
-        this.addScore()
+        this.addScore(player)
       } else if (this.playerMovement === 'Long down' && this.taskMovement === 'Down') {
-        this.addScore()
+        this.addScore(player)
       } else if (this.playerMovement === 'Long up' && this.taskMovement === 'Up') {
-        this.addScore()
+        this.addScore(player)
       }
     },
     countLimit () {
       if (this.countLimit === 0) {
         clearInterval(this.countDownLimit)
         this.countLimit = 'GO..!'
-        if (this.player.host) {
-          this.gameBegin()
-          this.taskInsterval = setInterval(this.systemTask, 2500)
-        }
+        this.gameBegin()
+        this.taskInsterval = setInterval(this.systemTask, 2500)
       }
     }
   },
   props: ['roomId'],
   created () {
-    localStorage.setItem('id','x1') //setting simulasi ID player
-    this.detailRoom('testAndri') //setting simulasi ID room
+    this.detailRoom(this.roomId) //setting simulasi ID room
   },
   data () {
     return {
@@ -98,7 +114,8 @@ export default {
       taskInsterval: null,
 
       isGameEnded : false,
-      msgGame: ''
+      msgGame: '',
+      whoIsThis : ''
     }
   },
   computed : {
@@ -124,7 +141,7 @@ export default {
       }
     } else if (idLocal === this.detailRoomGame.player2.id) {
       return {
-        host: false,
+        host: false, 
         playerName: this.detailRoomGame.player2.name,
         playerScore: this.detailRoomGame.player2.score,
         opponentName: this.detailRoomGame.player1.name,
@@ -137,22 +154,29 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["changeMovement", "detailRoom", "addingScore"]),
+    ...mapActions(["changeMovement", "detailRoom", "addingScore", "delRoom"]),
     showWinner (strMsg) {
       this.isGameEnded = true
       this.msgGame = strMsg
     },
-    addScore () {
-      if (this.player.host) {
+    removeRoom() {
+      let id = this.roomId
+      this.delRoom(id)
+      this.$router.push('/lobby')
+      gest.stop()
+
+    },
+    addScore (player) {
+      if (player == 'player1') {
         let data = {        
-          roomId : 'testAndri', // roomID simulasi
+          roomId : this.roomId, // roomID simulasi
           playerScore: this.player.playerScore + 50,
           playerNumber: 'player1'
         }
         this.addingScore(data)
       } else {
         let data = {        
-          roomId : 'testAndri', // roomID simulasi
+          roomId : this.roomId, // roomID simulasi
           playerScore: this.player.playerScore + 50,
           playerNumber: 'player2'
         }
@@ -166,7 +190,7 @@ export default {
       let task = ['Right', 'Left', 'Up', 'Down', 'Long up', 'Long down']
       let randomNum = Math.round(Math.random() * 5)
       let data = {
-        roomId : 'testAndri', // roomID simulasi
+        roomId : this.roomId , // roomID simulasi
         movement: task[randomNum]
       }
       this.changeMovement(data)
@@ -185,6 +209,7 @@ export default {
     gameBegin () {
       let self = this
       gest.start()
+      console.log('GEST JALAN')
       gest.options.subscribeWithCallback (function (gesture) {
         self.playerMovement = gesture.direction
       })

@@ -31,8 +31,9 @@ export default new Router({
       component: () => import('./components/Waitingroom.vue')
     },    
     {
-      path: '/ongame',
+      path: '/ongame/:roomId',
       name: 'onGame',
+      props: true,
       component: onGame
     }
   ]
