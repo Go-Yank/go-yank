@@ -6,14 +6,19 @@
         <label for="exampleInputEmail1">Create Room</label>
         <input type="text" class="form-control" placeholder="room name ...." v-model="name">
     </div>
-    <button type="submit" class="btn btn-primary" v-on:click="createNewRoom">Submit</button>
+    
+       <button type="submit" class="btn btn-primary" v-on:click="createNewRoom">Submit</button>
+    
+   
     </form>
 
     <div class="card" style="width: 18rem;" v-for="(room, index) in listRoom" :key="index">
         <div class="card-body">
             <h5 class="card-title">{{room.name}}</h5>
             <p class="card-text">{{room.quota}}/2</p>
+            <router-link :to="`/waitingroom/${index}`">
             <a href="#" class="btn btn-primary"  v-if="room.status" v-on:click="playerJoinRoom(index,room.quota)">Join</a>
+            </router-link>
         </div>
     </div>
 </div>
@@ -26,6 +31,7 @@ export default {
   data: function() {
     return {
       name: "",
+      idPlayer: ''
     //   roomStatus: true
     };
   },
@@ -39,7 +45,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["getRooms", "createRoom", "joinRoom"]),
+    ...mapActions(["getRooms", "createRoom", "joinRoom","getPlayer"]),
     createNewRoom() {
       let data = {
         name: this.name,
@@ -52,10 +58,24 @@ export default {
     },
     playerJoinRoom(roomId, quota) {
       let playerId = localStorage.getItem("id");
+      console.log(playerId);
+      
       if (quota === 0) {
-        this.joinRoom({ playerId, roomId, quota: 1 });
+        this.idPlayer = playerId
+        this.getPlayer(this.idPlayer)
+        .then(userJoin =>{
+          let user = Object.assign({id:this.idPlayer},userJoin)
+          this.joinRoom({ playerId, roomId, quota: 1,user });
+        })
+        
       } else if (quota === 1) {
-        this.joinRoom({ playerId, roomId, quota: 2, status:false });
+        this.idPlayer = playerId
+        this.getPlayer(this.idPlayer)
+        .then(userJoin =>{
+          let user = Object.assign({id:this.idPlayer},userJoin)
+          this.joinRoom({ playerId, roomId, quota: 2, status:false,user });          
+        })
+        
       }
     }
   },
