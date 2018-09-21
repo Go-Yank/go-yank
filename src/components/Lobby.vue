@@ -52,14 +52,14 @@ export default {
         player1: "",
         player2: "",
         quota: 0,
-        status:true
+        status:true,
+        messages:""
       };
       this.createRoom(data);
     },
     playerJoinRoom(roomId, quota) {
-      let playerId = localStorage.getItem("id");
-      console.log(playerId);
-      
+      let playerId = localStorage.getItem("id");      
+            
       if (quota === 0) {
         this.idPlayer = playerId
         this.getPlayer(this.idPlayer)
