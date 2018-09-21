@@ -10,13 +10,15 @@
     </form>
 
     <div class="row">
-        <div class="card" style="width: 18rem;" v-for="(room, index) in listRoom" :key="index">
-            <div class="card-body">
-                <h5 class="card-title">{{room.name}}</h5>
-                <p class="card-text">{{room.quota}}/2</p>
-                <router-link :to="`/waitingroom/${index}`">
-                <a href="#" class="btn btn-primary"  v-if="room.status" v-on:click="playerJoinRoom(index,room.quota)">Join</a>
-                </router-link>
+        <div class="col-6 col-md-4"  v-for="(room, index) in listRoom" :key="index">
+            <div class="card" style="width: 22rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{room.name}}</h5>
+                    <p class="card-text">{{room.quota}}/2</p>
+                    <router-link :to="`/waitingroom/${index}`">
+                    <a href="#" class="btn btn-primary"  v-if="room.status" v-on:click="playerJoinRoom(index,room.quota)">Join</a>
+                    </router-link>
+                </div>
             </div>
         </div>
     </div>
