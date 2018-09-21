@@ -54,18 +54,18 @@ export default {
     ...mapState(["detailRoomVal"]),
     detailRoomVal () {
       if (this.player.host) {
-        if (this.detailRoomVal.player1.score === 100) {
+        if (this.detailRoomVal.player1.score === 300) {
           this.stopGame()
           this.showWinner('You Win')
-        } else if (this.detailRoomVal.player2.score === 100) {
+        } else if (this.detailRoomVal.player2.score === 300) {
           this.stopGame()
           this.showWinner('You Lose')
         }
       } else {
-        if (this.detailRoomVal.player1.score === 100) {
+        if (this.detailRoomVal.player1.score === 300) {
           this.stopGame()
           this.showWinner('You Lose')
-        } else if (this.detailRoomVal.player2.score === 100) {
+        } else if (this.detailRoomVal.player2.score === 300) {
           this.stopGame()
           this.showWinner('You Win')
         } 

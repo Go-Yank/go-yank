@@ -2,7 +2,7 @@
   <nav id="topnav" class="navbar bg-secondary">
       <section class="container">
         <a href="/" class="navbar-brand">
-          <img src="fix.png" alt="logo" v-bind:title="message">
+          <img src="../../public/fix.png" alt="logo" v-bind:title="message">
         </a>
         <form class="form-inline">
         </form>

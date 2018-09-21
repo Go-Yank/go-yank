@@ -12,15 +12,7 @@
                         </li>
                     </ul>       
             <button class="mb-5" style="padding:30px 100px 30px 100px" type="button" @click="playerReady">ready</button>            
-        </div>
-        <hr>
-         <div class="justify-content-between">
-        <h1>{{playerData.player2.name}}</h1>
-        <h1>{{statusReady2}}</h1>
-        {{id}}
-        </div>
-        <button type="button" @click="playerReady">ready</button>
-
+        </div>    
             <div class="container">               
                 <div class="mb-5" >        
                     <ul class="list-group">                        
