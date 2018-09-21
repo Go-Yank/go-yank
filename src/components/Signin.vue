@@ -7,8 +7,8 @@
       <form class="login-form">
         <input v-model="name" type="text" placeholder="Input your name"/>
         
-        <button id="letsgo" type="button" @click="signin">
-          <img src="letsgo.png" alt="">
+        <button id="letsgo" type="button" @click="signin" class="bg-light col-md-3" style="border:1px solid red">
+          <img src="../assets/letsgo.png" alt="" width="100%" class="fluid">
         </button>
       </form>
     </div>
@@ -42,6 +42,7 @@ export default {
         y: 0
       }
       this.signinPlayer(data)
+      this.$router.push('/lobby')
     }
   }
 }

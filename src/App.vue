@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <nav id="topnav" class="navbar bg-secondary">
-      <section class="container">
-        <a href="/" class="navbar-brand">
-          <img src="fix.png" alt="logo">
-        </a>
-        <form class="form-inline">
-          <!-- <router-link id="navlink" to="/signin">Signin</router-link> -->
-        </form>
-      </section>
-    </nav>
+    <Navbar></Navbar>
     <router-view/>
   </div>
 </template>
+
+<script>
+  import Navbar from '@/components/Navbar.vue'
+  export default {
+    components: {
+      Navbar
+    }
+  }
+</script>
 
 <style>
 * {
@@ -26,22 +26,6 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#topnav {
-  padding: 0;
-}
-
-#topnav a {
-  color: white;
-}
-
-#topnav a#navlink {
-  margin-right: 15px;
-}
-
-section a img {
-  width: 100px;
 }
 
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
