@@ -7,28 +7,33 @@
           Start Games
         </div>
         <div class="countdown" v-else style="font-size:50px;">
-          <div style="margin-top:50px;">
-            Score : {{player.playerScore}}
-          </div>
-          <div  style="margin-top:50px;">
-            clue :
-          </div>
-          <div v-if="taskMovement">
-            {{taskMovement}}
-          </div>
-          <div v-if="countLimit !== 'GO..!'" style="margin-top:50px;">
-            {{countLimit}}
-          </div>
-          <div v-else style="margin-top:50px;">
-            {{playerMovement}}
-          </div>
-          <div>
-            <button v-on:click="stopGame">
-              stop
-            </button>
-          </div>
           <div v-if="isGameEnded">
             {{msgGame}}
+            <button class="ui button">
+              Go to lobby
+            </button>
+          </div>
+          <div v-else>
+            <div style="margin-top:50px;">
+              Score : {{player.playerScore}}
+            </div>
+            <div  style="margin-top:50px;">
+              clue :
+            </div>
+            <div v-if="taskMovement">
+              {{taskMovement}}
+            </div>
+            <div v-if="countLimit !== 'GO..!'" style="margin-top:50px;">
+              {{countLimit}}
+            </div>
+            <div v-else style="margin-top:50px;">
+              {{playerMovement}}
+            </div>
+            <div>
+              <button v-on:click="stopGame">
+                stop
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -43,15 +48,15 @@ import gest from '../assets/gest.js'
 export default {
   name: 'onGame',
   watch: {
-    currentScore () {
-      if (this.currentScore === 500) {
+    ...mapState(["detailRoomVal"]),
+    detailRoomVal () {
+      if (this.detailRoomVal.player1.score === 100) {
         this.stopGame()
+        this.showWinner('You Win')
+      } else if (this.detailRoomVal.player2.score === 100) {
+        this.stopGame()
+        this.showWinner('You Lose')
       }
-    },
-    opponentCurrentScore () {
-      if (this.opponentCurrentScore === 500) [
-        This.stopGame()
-      ]
     },
     playerMovement () {
       if (this.taskMovement === this.playerMovement) {        
@@ -107,25 +112,25 @@ export default {
     opponentCurrentScore () {
       return this.player.opponentScore
     },
-     player() {
-      let idLocal = localStorage.getItem('id')
-      if (idLocal === this.detailRoomGame.player1.id) {
-        return {
-          host: true,
-          playerName: this.detailRoomGame.player1.name,
-          playerScore: this.detailRoomGame.player1.score,
-          opponentName: this.detailRoomGame.player2.name,
-          opponentScore: this.detailRoomGame.player2.score,
-        }
-      } else if (idLocal === this.detailRoomGame.player2.id) {
-        return {
-          host: false,
-          playerName: this.detailRoomGame.player2.name,
-          playerScore: this.detailRoomGame.player2.score,
-          opponentName: this.detailRoomGame.player1.name,
-          opponentScore: this.detailRoomGame.player1.score
-        }
+    player() {
+    let idLocal = localStorage.getItem('id')
+    if (idLocal === this.detailRoomGame.player1.id) {
+      return {
+        host: true,
+        playerName: this.detailRoomGame.player1.name,
+        playerScore: this.detailRoomGame.player1.score,
+        opponentName: this.detailRoomGame.player2.name,
+        opponentScore: this.detailRoomGame.player2.score,
       }
+    } else if (idLocal === this.detailRoomGame.player2.id) {
+      return {
+        host: false,
+        playerName: this.detailRoomGame.player2.name,
+        playerScore: this.detailRoomGame.player2.score,
+        opponentName: this.detailRoomGame.player1.name,
+        opponentScore: this.detailRoomGame.player1.score
+      }
+    }
     },
     taskMovement () {
       return this.detailRoomVal.movement
@@ -133,8 +138,9 @@ export default {
   },
   methods: {
     ...mapActions(["changeMovement", "detailRoom", "addingScore"]),
-    showWinner () {
-      this.msgGame = 'You win'
+    showWinner (strMsg) {
+      this.isGameEnded = true
+      this.msgGame = strMsg
     },
     addScore () {
       if (this.player.host) {
