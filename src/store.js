@@ -18,7 +18,6 @@ const dbfirestore = app.firestore().settings({timestampsInSnapshots:true})
 const database = db.ref('database');
 const databaseUser = db.ref('database/user');
 const databaseRoom = db.ref('database/room');
-
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -52,7 +51,7 @@ export default new Vuex.Store({
     },
     getData: ({ commit }) => {
       database.on('value', (snapshot) => {
-        commit('setData', snapshot.val());
+        commit('setData', snapshot.val())
       })
     },
 
