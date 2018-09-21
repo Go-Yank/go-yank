@@ -24,16 +24,22 @@ export default new Vuex.Store({
   state: {
     database: [],
     rooms: [],
+<<<<<<< HEAD
     room: [],
     waitingroom: []
+=======
+    detailRoomVal: {}, 
+    systemGame: null
+>>>>>>> adding player 1 and player 2, score max, and play
   },
   mutations: {
     setData: (state, payload) => {
-      state.database = payload;
+      state.database = payload
     },
     setRoom: (state, payload) => {
       state.rooms = payload
     },
+<<<<<<< HEAD
     setWaitingRoom: (state, payload) => {
       state.room = payload
     },
@@ -48,18 +54,36 @@ export default new Vuex.Store({
         name: payload.name        
       }
       databaseRoom.child(`${payload.roomId}/messages`).push(data);
+=======
+    setDetailRoom: (state, payload) => {
+      state.detailRoomVal = payload
+    }
+  },
+  actions: {
+    addingScore: ({commit},payload) => {
+      console.log('masuk ADD SCORE ===============>', payload)
+      databaseRoom.child(`${payload.roomId}/${payload.playerNumber}/score`).set(payload.playerScore)
+    },
+    detailRoom: ({commit},payload) => {
+      let databaseRoomDetail = databaseRoom.child(payload)
+      databaseRoomDetail.on('value', function(snapshot) {
+        commit('setDetailRoom', snapshot.val())
+      });
+    },
+    changeMovement: ({commit}, payload) => {
+      // console.log(`Update database room/movement/${payload.movement}`);
+      databaseRoom.child(`${payload.roomId}/movement`).set(payload.movement)
+>>>>>>> adding player 1 and player 2, score max, and play
     },
     getData: ({ commit }) => {
       database.on('value', (snapshot) => {
         commit('setData', snapshot.val())
       })
     },
-
     signinPlayer: ({ commit }, payload) => {
       let newUser = database.child('user').push(payload);
       localStorage.setItem('id', newUser.key);
     },
-
     getRooms: ({ commit }) => {
       databaseRoom.on('value', (snapshot) => {
         // console.log(snapshot.val());
