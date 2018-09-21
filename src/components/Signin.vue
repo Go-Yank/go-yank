@@ -6,7 +6,6 @@
       <br>
       <form class="login-form">
         <input v-model="name" type="text" placeholder="Input your name"/>
-        
         <button id="letsgo" type="button" @click="signin" class="bg-light col-md-3" style="border:1px solid red">
           <img src="../assets/letsgo.png" alt="" width="100%" class="fluid">
         </button>
@@ -50,7 +49,7 @@ export default {
 
 <style>
   button#letsgo {
-    padding: 0;
+    padding: 5px;
     background-color: white;
   }
 </style>
