@@ -1,28 +1,40 @@
 <template>
     <div>
-        <div class="justify-content-between">
-        <h1>{{playerData.player1.name}}</h1>
-        <h1>{{statusReady1}}</h1>
+           <div class="container mt-5 mb-5"> 
+                 <ul class="list-group mb-5">                        
+                        <li class="list-group-item" style="list-style:none">
+                            <h1 class="col-md-3" style="display : inline-block">{{playerData.player1.name}}</h1>                    
+                            <h1 style="display : inline-block">{{statusReady1}}</h1>                    
+                        </li>
+                         <li class="list-group-item" style="list-style:none">
+                            <h1 class="col-md-3" style="display : inline-block">{{playerData.player2.name}}</h1>                    
+                            <h1 style="display : inline-block;">{{statusReady2}}</h1>                    
+                        </li>
+                    </ul>       
+            <button class="mb-5" style="padding:30px 100px 30px 100px" type="button" @click="playerReady">ready</button>            
         </div>
-        <hr>
-         <div class="justify-content-between">
-        <h1>{{playerData.player2.name}}</h1>
-        <h1>{{statusReady2}}</h1>
-        </div>
-        <button type="button" @click="playerReady">ready</button>
+          
+        
 
-        <div>
-            <form>
-                <input type="text" v-model="messages">
-                <button type="button" @click="sendMessage">Send</button>
-            </form>
-            
-            <ul>
-                <li v-for="(chat,index) in messagesData" :key="index" style="list-style:none">
-                    {{chat.text}} || {{chat.name}} || {{chat.time}}
-                </li>
-            </ul>
-        </div>
+            <div class="container">               
+                <div class="mb-5" >        
+                    <ul class="list-group">                        
+                        <li class="list-group-item" v-for="(chat,index) in messagesData" :key="index" style="list-style:none">
+                            <h1>{{chat.text}}</h1>
+                            <h5>{{chat.name}}</h5>
+                        </li>
+                    </ul>
+                </div>     
+                 <form>
+                     <ul class="list-group">                        
+                       
+                            <input class="list-group-item" type="text" v-model="messages">
+                            <button type="button" @click="sendMessage">Send</button>
+                        
+                    </ul>
+                    
+                </form>   
+            </div>
     </div>
 </template>
 
@@ -122,6 +134,15 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+button{
+       background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
 </style>
