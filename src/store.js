@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as firebase from 'firebase'
-import { resolve } from 'url';
-import { rejects } from 'assert';
 
 var config = {
   apiKey: "AIzaSyCNf9kaL6VVKovaYACsv-JYvYfMevL8xZk",
@@ -15,6 +13,7 @@ var config = {
 
 const app = firebase.initializeApp(config);
 const db = app.database();
+const dbfirestore = app.firestore().settings({timestampsInSnapshots:true})
 
 const database = db.ref('database');
 const databaseUser = db.ref('database/user');
@@ -44,6 +43,13 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    sendMessageDatabase: ({ commit } ,payload) => {         
+      let data = {
+        text: payload.text,
+        name: payload.name        
+      }
+      databaseRoom.child(`${payload.roomId}/messages`).push(data);
+    },
     getData: ({ commit }) => {
       database.on('value', (snapshot) => {
         commit('setData', snapshot.val());
