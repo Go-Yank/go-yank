@@ -1,10 +1,17 @@
 <template>
-  <div>
-    <label>Name</label>
-    <form>
-      <input type="text" v-model="name" placeholder="Input your name">
-      <button type="button" @click="signin">Go!!</button>
-    </form>
+  <div class="login-page">
+    <div class="form">
+      <center>
+      </center>
+      <br>
+      <form class="login-form">
+        <input v-model="name" type="text" placeholder="Input your name"/>
+        
+        <button id="letsgo" type="button" @click="signin">
+          <img src="letsgo.png" alt="">
+        </button>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -39,3 +46,10 @@ export default {
   }
 }
 </script>
+
+<style>
+  button#letsgo {
+    padding: 0;
+    background-color: white;
+  }
+</style>
