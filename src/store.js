@@ -25,14 +25,19 @@ export default new Vuex.Store({
     database: [],
     rooms: [],
     room: [],
-    waitingroom: []
+    waitingroom: [],
+    detailRoomVal: {}, 
+    systemGame: null
   },
   mutations: {
     setData: (state, payload) => {
-      state.database = payload;
+      state.database = payload
     },
     setRoom: (state, payload) => {
       state.rooms = payload
+    },
+    setDetailRoom: (state, payload) => {
+      state.detailRoomVal = payload
     },
     setWaitingRoom: (state, payload) => {
       state.room = payload
@@ -49,17 +54,30 @@ export default new Vuex.Store({
       }
       databaseRoom.child(`${payload.roomId}/messages`).push(data);
     },
+    delRoom ({commit},payload) {
+      databaseRoom.child(`${payload}`).remove()
+    },
+    addingScore: ({commit},payload) => {
+      databaseRoom.child(`${payload.roomId}/${payload.playerNumber}/score`).set(payload.playerScore)
+    },
+    detailRoom: ({commit},payload) => {
+      let databaseRoomDetail = databaseRoom.child(payload)
+      databaseRoomDetail.on('value', function(snapshot) {
+        commit('setDetailRoom', snapshot.val())
+      });
+    },
+    changeMovement: ({commit}, payload) => {
+      databaseRoom.child(`${payload.roomId}/movement`).set(payload.movement)
+    },
     getData: ({ commit }) => {
       database.on('value', (snapshot) => {
         commit('setData', snapshot.val())
       })
     },
-
     signinPlayer: ({ commit }, payload) => {
       let newUser = database.child('user').push(payload);
       localStorage.setItem('id', newUser.key);
     },
-
     getRooms: ({ commit }) => {
       databaseRoom.on('value', (snapshot) => {
         // console.log(snapshot.val());

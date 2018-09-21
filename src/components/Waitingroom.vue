@@ -12,10 +12,7 @@
                         </li>
                     </ul>       
             <button class="mb-5" style="padding:30px 100px 30px 100px" type="button" @click="playerReady">ready</button>            
-        </div>
-          
-        
-
+        </div>    
             <div class="container">               
                 <div class="mb-5" >        
                     <ul class="list-group">                        
@@ -43,6 +40,13 @@ import { mapActions, mapState } from 'vuex'
 import { log } from 'util';
 export default {
     props:['id'],
+    watch: {
+        playerData() {
+            if(this.playerData.player1.status == 1 && this.playerData.player2.status == 1) {
+              this.$router.push(`/ongame/${this.id}`)
+            } 
+        }
+    },
     computed:{
         ...mapState(['room','waitingroom']),        
         playerData(){
@@ -86,8 +90,6 @@ export default {
         sendMessage(){
             
             if(this.playerData.player1.id == this.playerId){                
-            //    console.log('messages ====>',this.messages)
-            //    console.log(this.playerData.player1.name)
                let payload = {
                    name : this.playerData.player1.name,
                    text : this.messages,
@@ -104,8 +106,6 @@ export default {
                    roomId : this.id
                }
                this.sendMessageDatabase(payload)         
-                // console.log('messages ====>',this.messages)
-                // console.log(this.playerData.player2.name)
             }
         },
         getPlayerData(){
