@@ -6,6 +6,7 @@
       <br>
       <form class="login-form">
         <input v-model="name" type="text" placeholder="Input your name"/>
+        <h6 class="text-danger" v-if="feedback">{{feedback}}</h6>
         <button id="letsgo" type="button" @click="signin" class="bg-light col-md-3" style="border:1px solid red">
           <img src="../assets/letsgo.png" alt="" width="100%" class="fluid">
         </button>
@@ -18,7 +19,7 @@
 import { mapState, mapActions } from 'vuex'
 export default {
   data () {
-    return { name: '' }
+    return { name: null,feedback:null }
   },
   computed: {
     ...mapState(['database']),
@@ -33,15 +34,21 @@ export default {
   methods: {
     ...mapActions(['getData', 'signinPlayer']),
     signin () {
-      let data = {
-        name: this.name,
-        score: 0,
-        status: 0,
-        x: 0,
-        y: 0
+      if(this.name){
+
+        let data = {
+          name: this.name,
+          score: 0,
+          status: 0,
+          x: 0,
+          y: 0
+        }
+        this.signinPlayer(data)
+        this.$router.push('/lobby')
       }
-      this.signinPlayer(data)
-      this.$router.push('/lobby')
+      else{
+        this.feedback = 'isi dulu namanya sayang'
+      }
     }
   }
 }

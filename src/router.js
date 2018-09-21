@@ -20,19 +20,43 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './components/Signin.vue')
     },
     {
-      path:'/lobby',
-      name:'lobby',
+      path: '/lobby',
+      name: 'lobby',
+      beforeEnter (to, from, next) {
+        if (localStorage.getItem('id')) {
+          next()
+        }
+        else{
+          next('/')
+        }
+      },
       component:()=> import('./components/Lobby.vue')
     },
       {
       path:'/waitingroom/:id',
       name:'waitingroom',   
       props:true,  
+      beforeEnter (to, from, next) {
+        if (localStorage.getItem('id')) {
+          next()
+        }
+        else{
+          next('/')
+        }
+      },
       component: () => import('./components/Waitingroom.vue')
     },    
     {
       path: '/ongame/:roomId',
       name: 'onGame',
+      beforeEnter (to, from, next) {
+        if (localStorage.getItem('id')) {
+          next()
+        }
+        else{
+          next('/')
+        }
+      },
       props: true,
       component: onGame
     }
